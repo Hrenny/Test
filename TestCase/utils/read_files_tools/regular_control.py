@@ -6,6 +6,8 @@ from jsonpath import jsonpath
 from faker import Faker
 from utils.logging_tool.log_control import ERROR
 from utils.cache_process.cache_control import CacheHandler
+from utils import config
+
 
 class Context:
     """正则替换"""
@@ -70,16 +72,13 @@ class Context:
     @classmethod
     def host(cls):
         """获取接口域名"""
-        # from utils import config
-        # return config.host
-        pass
+        return config.host
 
     @classmethod
     def app_host(cls):
         """获取app的host"""
-        # from utils import config
-        # return config.app_host
-        pass
+        return config.app_host
+
 
 
 def sql_json(js_path, res):
@@ -122,7 +121,7 @@ def cache_regular(value):
 def regular(target):
     """正则替换请求数据"""
     try:
-        regular_pattern = r'\${{.*?}}'
+        regular_pattern = r'\${{(.*?)}}'
         while re.findall(regular_pattern, target):
             key = re.search(regular_pattern, target).group(1)
             value_types = ['int:', 'bool:', 'list:', 'dict:', 'tuple:', 'float:']
