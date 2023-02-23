@@ -25,6 +25,19 @@ class LogHandler:
                  level: Text = 'info',
                  when: Text = 'D',
                  fmt: Text = '%(levelname)-8s%(asctime)s%(name)s:%(filename)s:%(lineno)d %(message)s'):
+        """
+        :param filename:
+        :param level:
+        :param when:
+        :param fmt: %(asctime)s:日志事件发生的时间
+                    %(levelname)s:该日志记录的日志级别
+                    %(message)s:日志记录的文本内容
+                    %(name)s:所使用的日志器名称
+                    %(pathname)s:调用日志记录函数的文件的全路径
+                    %(filename)s:调用日志记录函数的文件
+                    %(funcName)s:调用日志记录函数的函数名
+                    %(lineo)d:调用日志记录函数的代码所在的行号
+        """
         self.logger = logging.getLogger(filename)
         formatter_color = self.log_color()
         # 设置日志格式

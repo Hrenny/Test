@@ -19,6 +19,9 @@ real_time_update_test_cases: False
 notification_type: 0
 
 # 收集失败的用例开关，整理成excel报告的形式，自动发送，目前只支持发送企业微信通知
+excel_report: False
+
+#钉钉配置
 ding_talk:
   webhook:
   secret:
@@ -36,7 +39,7 @@ mirror_source: http://mirrors.aliyun.com/pypi/simple/
 
 # 企业通知的相关配置
 wechat:
-  webhook: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=22748687-fa3b-4e48-a5d7-0502cef422b4
+  webhook:
 
 # 配置邮箱
 email:
