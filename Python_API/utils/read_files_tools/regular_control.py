@@ -1,5 +1,5 @@
 import re
-
+from utils.cache_control.cache_control import CacheHandler
 from utils.logging_tool.log_control import ERROR
 
 
@@ -8,6 +8,34 @@ class Context:
     def host(cls):
         from utils import config
         return config.host
+
+
+def cache_regular(value):
+    """通过正则的方式，读取缓存中的内容"""
+    # 正则匹配，返回列表
+    regular_dates = re.findall(r'\$cache\{(.*?)\}', value)
+    # 遍历列表
+    for regular_data in regular_dates:
+        value_types = ['int:', 'bool:', 'list:', 'dict:', 'tuple:', 'float:']
+        # 判断是否匹配列表中的类型
+        if any(i in regular_data for i in value_types) is True:
+            # 对字符串进行分隔，取第一个值
+            value_types = regular_data.split(':')[0]
+            # 对字符串进行分隔，取第二个值
+            regular_data = regular_data.split(':')[1]
+            # 编译正则表达式对象
+            pattern = re.compile(r'\'\$cache\{' + value_types.split(':')[0] + ':' + regular_data + r'\}\'')
+        else:
+            # 编译正则表达式对象
+            pattern = re.compile(r'\$cache\{' + regular_data.replace('$', '\$').replace('[', '\[') + r'\}')
+        try:
+            # 获取缓存数据
+            cache_data = CacheHandler.get_cache(regular_data)
+            # value中到的字符串,替换成cache_data
+            value = re.sub(pattern, str(cache_data), value)
+        except Exception:
+            pass
+    return value
 
 
 def regular(target):

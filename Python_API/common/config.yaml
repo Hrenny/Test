@@ -5,10 +5,29 @@ env: 测试环境
 # 测试人员名称
 tester_name: 何佳祺
 # 测试url
-host: https://rivers.yiyouliao.com/v3/login
+host: http://test.api.yiyouliao.com
 # 实时更新用例内容 False：已生成的用例不会做变更  True：修改yaml文件的用例，代码中的内容会实时更新
 real_time_update_test_cases: False
 # 报告通知类型 0：不发通知
 notification_type: 0
 # 收集失败用例，形成excel报告 False：不发送  True：自动发送
 excel_report: False
+# 数据库配置
+mysql_db:
+  # 数据库开关
+  switch: False
+  host:
+  user:
+  password:
+  port:
+#企业微信配置
+wechat:
+  webhook:
+# 邮箱配置
+email:
+  send_user:
+  email_host:
+
+  stamp_key:
+  # 收件邮箱
+  send_list:
