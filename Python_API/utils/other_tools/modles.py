@@ -292,8 +292,6 @@ class Config(BaseModel):
     real_time_update_test_cases: bool = False
     # 测试url
     host: Text
-    # 多测试地址
-    app_host: Union[Text, None]
 
 
 class TestCase(BaseModel):
