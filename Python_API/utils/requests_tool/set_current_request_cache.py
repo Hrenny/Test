@@ -2,7 +2,6 @@ import json
 from typing import Text
 from utils.other_tools.exceptions import ValueNotFoundError
 from jsonpath import jsonpath
-
 from utils.cache_control.cache_control import CacheHandler
 
 

@@ -37,7 +37,7 @@ class TestMetrics:
     time: Text
 
 
-class RequesType(Enum):
+class RequestType(Enum):
     """request请求发送，请求参数的数据类型"""
     # 请求内容为json格式
     JSON = 'JSON'
