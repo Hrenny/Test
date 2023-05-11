@@ -5,7 +5,7 @@ case_common:
 
 login_01:
   host: ${{host}}
-  url: /rivers/web/account/login
+  url:
   method: POST
   detail: 正常登录
   headers:

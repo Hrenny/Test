@@ -5,7 +5,7 @@ env: 测试环境
 # 测试人员名称
 tester_name: 何佳祺
 # 测试url
-host: http://test.api.yiyouliao.com
+host:
 # 实时更新用例内容 False：已生成的用例不会做变更  True：修改yaml文件的用例，代码中的内容会实时更新
 real_time_update_test_cases: False
 # 报告通知类型 0：不发通知
