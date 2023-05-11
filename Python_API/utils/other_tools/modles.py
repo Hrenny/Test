@@ -222,7 +222,7 @@ class ResponseData(BaseModel):
     # 请求头
     headers: Dict
     # cookie数据
-    cookie: Dict
+    token: Dict
     # 断言数据
     assert_data: Dict
     # 响应时间
@@ -378,7 +378,7 @@ class AssertMethod(Enum):
     # 字符串相等
     string_equals = "str_eq"
     # 字符串长度相等
-    length_equals = "str_eq"
+    length_equals = "len_eq"
     # 字符串长度大于
     length_greater_than = "len_gt"
     # 字符串长度大于等于

@@ -14,20 +14,19 @@ from utils.mysql_tool.mysql_control import AssertExecution
 from utils.other_tools.allure_data.allure_tools import allure_attach, allure_step_no, allure_step
 from utils.other_tools.modles import TestCase, ResponseData, RequestType
 from utils.read_files_tools.regular_control import cache_regular
-from utils.requests_tool.dependent_case import DependentCase
 from utils.requests_tool.set_current_request_cache import SetCurrentRequestCache
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class RequestControl:
-    """·â×°ÇëÇó"""
+    """å°è£…è¯·æ±‚"""
 
     def __init__(self, yaml_case):
         self.__yaml_case = TestCase(**yaml_case)
 
     def file_data_exit(self, file_data):
-        """ÉÏ´«ÎÄ¼şÊ±£¬data²ÎÊıÊÇ·ñ´æÔÚ"""
+        """ä¸Šä¼ æ–‡ä»¶æ—¶ï¼Œdataå‚æ•°æ˜¯å¦å­˜åœ¨"""
         try:
             _data = self.__yaml_case
             for key, value in ast.literal_eval(cache_regular(str(_data)))['data'].items():
@@ -40,14 +39,14 @@ class RequestControl:
 
     @classmethod
     def multipart_data(cls, file_data):
-        """´¦ÀíÉÏ´«ÎÄ¼şµÄÊı¾İ"""
+        """å¤„ç†ä¸Šä¼ æ–‡ä»¶çš„æ•°æ®"""
         multipart = MultipartEncoder(fields=file_data,
                                      boundary='-----------------------------' + str(random.randint(int(1e28), int(1e29 - 1))))
         return multipart
 
     @classmethod
     def check_headers_str_null(cls, headers):
-        """¼æÈİÓÃ»§Î´ÌîĞ´headers"""
+        """å…¼å®¹ç”¨æˆ·æœªå¡«å†™headers"""
         headers = ast.literal_eval(cache_regular(str(headers)))
         if headers is None:
             headers = {'headers': None}
@@ -59,20 +58,20 @@ class RequestControl:
 
     @classmethod
     def multipart_in_headers(cls, request_data, header):
-        """ÅĞ¶Ï´¦ÀíheaderÎªContent-Type:multipart/form-data"""
+        """åˆ¤æ–­å¤„ç†headerä¸ºContent-Type:multipart/form-data"""
         header = ast.literal_eval(cache_regular(str(header)))
         request_data = ast.literal_eval(cache_regular(str(request_data)))
         if header is None:
             header = {'headers': None}
         else:
-            # ½«headerÖĞµÄint×ª»»³Éstr
+            # å°†headerä¸­çš„intè½¬æ¢æˆstr
             for key, value in header.items():
                 if not isinstance(value, str):
                     header[key] = str(value)
             if 'multipart/form-data' in str(header.values()):
-                # ÅĞ¶Ï²ÎÊı²»Îª¿Õ£¬²¢²ÎÊıÊÇ×ÖµäÀàĞÍ
+                # åˆ¤æ–­å‚æ•°ä¸ä¸ºç©ºï¼Œå¹¶å‚æ•°æ˜¯å­—å…¸ç±»å‹
                 if request_data and isinstance(request_data, dict):
-                    # µ±Content-TypeÎªmultipart/form-dataÊ±£¬ĞèÒª½«Êı¾İÀàĞÍ×ª»»³Éstr
+                    # å½“Content-Typeä¸ºmultipart/form-dataæ—¶ï¼Œéœ€è¦å°†æ•°æ®ç±»å‹è½¬æ¢æˆstr
                     for key, value in request_data.items():
                         if not isinstance(value, str):
                             request_data[key] = str(value)
@@ -81,7 +80,7 @@ class RequestControl:
         return request_data, header
 
     def file_prams_exit(self):
-        """ÅĞ¶ÏÉÏ´«ÎÄ¼ş½Ó¿Ú£¬ÎÄ¼ş²ÎÊıÊÇ·ñ´æÔÚ"""
+        """åˆ¤æ–­ä¸Šä¼ æ–‡ä»¶æ¥å£ï¼Œæ–‡ä»¶å‚æ•°æ˜¯å¦å­˜åœ¨"""
         try:
             params = self.__yaml_case.data['params']
         except KeyError:
@@ -90,19 +89,19 @@ class RequestControl:
 
     @classmethod
     def text_encode(cls, text):
-        """unicode½âÂë"""
+        """unicodeè§£ç """
         return text.encode('utf-8').decode('utf-8')
 
     @classmethod
     def repsonse_elapsed_total_seconds(cls, res):
-        """»ñÈ¡½Ó¿ÚÏìÓ¦Ê±³¤"""
+        """è·å–æ¥å£å“åº”æ—¶é•¿"""
         try:
             return round(res.elapsed.total_seconds() * 1000, 2)
         except AttributeError:
             return 0.00
 
     def upload_file(self):
-        """ÅĞ¶Ï´¦ÀíÉÏ´«ÎÄ¼ş"""
+        """åˆ¤æ–­å¤„ç†ä¸Šä¼ æ–‡ä»¶"""
         _files = []
         file_data = {}
         self.file_data_exit(file_data)
@@ -118,7 +117,7 @@ class RequestControl:
         return multipart, params_data, self.__yaml_case
 
     def request_type_for_json(self, headers, method, **kwargs):
-        """ÅĞ¶ÏÇëÇóÀàĞÍÎªjson¸ñÊ½"""
+        """åˆ¤æ–­è¯·æ±‚ç±»å‹ä¸ºjsonæ ¼å¼"""
         _headers = self.check_headers_str_null(headers)
         _data = self.__yaml_case.data
         _url = self.__yaml_case.url
@@ -135,7 +134,7 @@ class RequestControl:
         return res
 
     def request_type_for_none(self, headers, method, **kwargs):
-        """ÅĞ¶ÏrequestTypeÎªNone"""
+        """åˆ¤æ–­requestTypeä¸ºNone"""
         _headers = self.check_headers_str_null(headers)
         _url = self.__yaml_case.url
         res = requests.request(
@@ -150,7 +149,7 @@ class RequestControl:
         return res
 
     def request_type_for_params(self, headers, method, **kwargs):
-        """´¦ÀírequestTypeÎªparams"""
+        """å¤„ç†requestTypeä¸ºparams"""
         _data = self.__yaml_case.data
         url = self.__yaml_case.url
         if _data is not None:
@@ -174,7 +173,7 @@ class RequestControl:
         return res
 
     def request_type_for_file(self, method, headers, **kwargs):
-        """´¦ÀírequestTypeÎªfileÀàĞÍ"""
+        """å¤„ç†requestTypeä¸ºfileç±»å‹"""
         multipart = self.upload_file()
         yaml_data = multipart[2]
         _headers = multipart[2].headers
@@ -191,7 +190,7 @@ class RequestControl:
         return res
 
     def request_type_for_data(self, headers, method, **kwargs):
-        """ÅĞ¶ÏrequestTypeÀàĞÍÎªdataÀàĞÍ"""
+        """åˆ¤æ–­requestTypeç±»å‹ä¸ºdataç±»å‹"""
         data = self.__yaml_case.data
         _data, _headers = self.multipart_in_headers(
             ast.literal_eval(cache_regular(str(data))),
@@ -210,16 +209,16 @@ class RequestControl:
 
     @classmethod
     def get_export_api_filename(cls, res):
-        """´¦Àíµ¼³öÎÄ¼ş"""
+        """å¤„ç†å¯¼å‡ºæ–‡ä»¶"""
         content_disposition = res.headers.get('content-disposition')
-        # ·Ö¸î×Ö·û´®£¬ÌáÈ¡ÎÄ¼şÃû
+        # åˆ†å‰²å­—ç¬¦ä¸²ï¼Œæå–æ–‡ä»¶å
         filename_code = content_disposition.split('=')[-1]
-        # url½âÂë
+        # urlè§£ç 
         filename = urllib.parse.unquote(filename_code)
         return filename
 
     def request_type_for_export(self, headers, method, **kwargs):
-        """ÅĞ¶ÏrequestTypeÎªexportµ¼³öÀàĞÍ"""
+        """åˆ¤æ–­requestTypeä¸ºexportå¯¼å‡ºç±»å‹"""
         _headers = self.check_headers_str_null(headers)
         _data = self.__yaml_case.data
         _url = self.__yaml_case.url
@@ -240,12 +239,12 @@ class RequestControl:
                     for chunk in res.iter_content(chunk_size=1):
                         file.write(chunk)
             else:
-                print('ÎÄ¼şÎª¿Õ')
+                print('æ–‡ä»¶ä¸ºç©º')
         return res
 
     @classmethod
     def _request_body_handler(cls, data, request_type):
-        """´¦ÀíÇëÇó²ÎÊı"""
+        """å¤„ç†è¯·æ±‚å‚æ•°"""
         if request_type.upper() == 'PARAMS':
             return None
         else:
@@ -253,8 +252,8 @@ class RequestControl:
 
     @classmethod
     def _sql_data_handler(cls, sql_data, res):
-        """´¦Àísql²ÎÊı"""
-        # ÅĞ¶ÏÊı¾İ¿ª¹Ø£¬¿ªÆô·µ»ØÏàÓ¦Êı¾İ
+        """å¤„ç†sqlå‚æ•°"""
+        # åˆ¤æ–­æ•°æ®å¼€å…³ï¼Œå¼€å¯è¿”å›ç›¸åº”æ•°æ®
         if config.mysql_db.switch and sql_data is not None:
             sql_data = AssertExecution().assert_execution(sql=sql_data, resp=res.json())
         else:
@@ -285,20 +284,21 @@ class RequestControl:
 
     @classmethod
     def api_allure_step(cls, *, url, headers, method, data, assert_data, res_time, res):
-        """ÔÚallureÖĞ¼ÇÂ¼ÇëÇóÊı¾İ"""
-        allure_step_no(f'ÇëÇóURL:{url}')
-        allure_step_no(f'ÇëÇó·½Ê½:{method}')
-        allure_step('ÇëÇóÍ·£º', headers)
-        allure_step('ÇëÇóÊı¾İ£º', data)
-        allure_step('Ô¤ÆÚÊı¾İ£º', assert_data)
+        """åœ¨allureä¸­è®°å½•è¯·æ±‚æ•°æ®"""
+        allure_step_no(f'è¯·æ±‚URL:{url}')
+        allure_step_no(f'è¯·æ±‚æ–¹å¼:{method}')
+        allure_step('è¯·æ±‚å¤´ï¼š', headers)
+        allure_step('è¯·æ±‚æ•°æ®ï¼š', data)
+        allure_step('é¢„æœŸæ•°æ®ï¼š', assert_data)
         _res_time = res_time
-        allure_step_no(f'ÏìÓ¦ºÄÊ±:{str(_res_time)}')
-        allure_step('ÏìÓ¦½á¹û£º', res)
+        allure_step_no(f'å“åº”è€—æ—¶:{str(_res_time)}')
+        allure_step('å“åº”ç»“æœï¼š', res)
 
     @log_decorator(True)
     @execution_duration(3000)
     def http_request(self, dependent_switch=True, **kwargs):
-        """ÇëÇó·â×°"""
+        """è¯·æ±‚å°è£…"""
+        from utils.requests_tool.dependent_case import DependentCase
         requests_type_mapping = {
             RequestType.JSON.value: self.request_type_for_json,
             RequestType.NONE.value: self.request_type_for_none,
@@ -308,7 +308,7 @@ class RequestControl:
             RequestType.EXPORT.value: self.request_type_for_export
         }
         is_run = ast.literal_eval(cache_regular(str(self.__yaml_case.is_run)))
-        # ÅĞ¶ÏÓÃÀıÊÇ·ñÖ´ĞĞ
+        # åˆ¤æ–­ç”¨ä¾‹æ˜¯å¦æ‰§è¡Œ
         if is_run is True or is_run is None:
             if dependent_switch is True:
                 DependentCase(self.__yaml_case).get_dependent_data()
@@ -329,7 +329,7 @@ class RequestControl:
                 res_time=str(_res_data.res_time),
                 res=_res_data.response_data
             )
-            # µ±Ç°ÇëÇóÊı¾İ´æÈë»º´æÖĞ
+            # å½“å‰è¯·æ±‚æ•°æ®å­˜å…¥ç¼“å­˜ä¸­
             SetCurrentRequestCache(
                 current_request_set_cache=self.__yaml_case.current_request_set_cache,
                 request_data=self.__yaml_case.data,

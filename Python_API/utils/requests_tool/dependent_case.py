@@ -1,7 +1,6 @@
 import ast
 import json
 from typing import Text, Dict
-
 from jsonpath import jsonpath
 from utils import config
 from utils.cache_control.cache_control import CacheHandler

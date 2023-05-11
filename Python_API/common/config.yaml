@@ -27,7 +27,8 @@ wechat:
 email:
   send_user:
   email_host:
-
   stamp_key:
   # 收件邮箱
   send_list:
+# 镜像源
+mirror_source: http://mirrors.aliyun.com/pypi/simple/

@@ -16,14 +16,14 @@ login_01:
     password: "daji123@"
   dependence_case: False
   dependence_case_data:
-    assert:
-      code:
-        jsonpath: S.code
-        type: ==
-        value: 0
-        AsserType:
-      message:
-        jsonpath: $.message
-        type: ==
-        value: "success"
-        AsserType:
+  assert:
+    code:
+      jsonpath: S.code
+      type: ==
+      value: 0
+      AsserType:
+    message:
+      jsonpath: $.message
+      type: ==
+      value: "success"
+      AsserType:

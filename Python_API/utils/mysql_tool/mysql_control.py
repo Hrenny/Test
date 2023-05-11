@@ -9,73 +9,73 @@ from utils.logging_tool.log_control import ERROR
 from utils.other_tools.exceptions import DataAcquisitionFailed, ValueTypeError
 from utils.read_files_tools.regular_control import cache_regular, sql_regular
 
-# ºöÂÔMysql¾¯¸æĞÅÏ¢
+# å¿½ç•¥Mysqlè­¦å‘Šä¿¡æ¯
 filterwarnings('ignore', category=pymysql.Warning)
 
 
 class MysqlDB:
-    """mysql·â×°"""
+    """mysqlå°è£…"""
     if config.mysql_db.switch:
         def __init__(self):
             try:
-                # ½¨Á¢Êı¾İ¿âÁ¬½Ó
+                # å»ºç«‹æ•°æ®åº“è¿æ¥
                 self.conn = pymysql.connect(host=config.mysql_db.host,
                                             user=config.mysql_db.user,
                                             password=config.mysql_db.password,
                                             port=config.mysql_db.port)
-                # Ê¹ÓÃcursor ·½·¨»ñÈ¡²Ù×÷ÓÎ±ê£¬µÃµ½sqlÓï¾ä£¬²Ù×÷½á¹û·µ»Ø×Öµä
+                # ä½¿ç”¨cursor æ–¹æ³•è·å–æ“ä½œæ¸¸æ ‡ï¼Œå¾—åˆ°sqlè¯­å¥ï¼Œæ“ä½œç»“æœè¿”å›å­—å…¸
                 self.cur = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
             except AttributeError as error:
-                ERROR.logger.error(f'Êı¾İ¿âÁ¬½ÓÊ§°Ü£¬Ê§°ÜÔ­Òò{error}')
+                ERROR.logger.error(f'æ•°æ®åº“è¿æ¥å¤±è´¥ï¼Œå¤±è´¥åŸå› {error}')
                 raise
 
         def __del__(self):
             try:
-                # ¹Ø±ÕÓÎ±ê
+                # å…³é—­æ¸¸æ ‡
                 self.cur.close()
-                # ¹Ø±ÕÁ¬½Ó
+                # å…³é—­è¿æ¥
                 self.conn.close()
             except AttributeError as error:
-                ERROR.logger.error(f'Êı¾İ¿â¹Ø±ÕÁ¬½ÓÊ§°Ü£¬Ê§°ÜÔ­Òò{error} ')
+                ERROR.logger.error(f'æ•°æ®åº“å…³é—­è¿æ¥å¤±è´¥ï¼Œå¤±è´¥åŸå› {error} ')
                 raise
 
         def query(self, sql, state='all'):
-            """²éÑ¯sql"""
+            """æŸ¥è¯¢sql"""
             try:
                 self.cur.execute(sql)
                 if state == 'all':
-                    # ²éÑ¯È«²¿
+                    # æŸ¥è¯¢å…¨éƒ¨
                     data = self.cur.fetchall()
                 else:
-                    # ²éÑ¯µ¥Ìõ
+                    # æŸ¥è¯¢å•æ¡
                     data = self.cur.fetchone()
                 return data
             except AttributeError as error_data:
-                ERROR.logger.error(f'Êı¾İ¿âÁ¬½ÓÊ§°Ü£¬Ê§°ÜÔ­Òò{error_data}')
+                ERROR.logger.error(f'æ•°æ®åº“è¿æ¥å¤±è´¥ï¼Œå¤±è´¥åŸå› {error_data}')
                 raise
 
         def execute(self, sql: Text):
-            """Ö´ĞĞsql"""
+            """æ‰§è¡Œsql"""
             try:
                 rows = self.cur.execute(sql)
-                # Ìá½»ÊÂÎñ
+                # æäº¤äº‹åŠ¡
                 self.conn.commit()
                 return rows
             except AttributeError as error:
-                ERROR.logger.error(f'Êı¾İ¿âÁ¬½ÓÊ§°Ü£¬Ê§°ÜÔ­Òò{error}')
-                # Èç¹ûÊÂÎñÒì³££¬Ôò»Ø¹ö´¦Àí
+                ERROR.logger.error(f'æ•°æ®åº“è¿æ¥å¤±è´¥ï¼Œå¤±è´¥åŸå› {error}')
+                # å¦‚æœäº‹åŠ¡å¼‚å¸¸ï¼Œåˆ™å›æ»šå¤„ç†
                 self.conn.rollback()
                 raise
 
         @classmethod
         def sql_data_handle(cls, query_data, data):
             """
-            ´¦Àí²¿·ÖÀàĞÍsql²éÑ¯³öÀ´µÄÊı¾İ
-            :param query_data: ²éÑ¯³öÀ´µÄÊı¾İ
-            :param data: Êı¾İ³Ø
+            å¤„ç†éƒ¨åˆ†ç±»å‹sqlæŸ¥è¯¢å‡ºæ¥çš„æ•°æ®
+            :param query_data: æŸ¥è¯¢å‡ºæ¥çš„æ•°æ®
+            :param data: æ•°æ®æ± 
             :return:
             """
-            # ½«sql·µ»ØµÄËùÓĞÄÚÈİÈ«²¿·ÅÈë¶ÔÏóÖĞ
+            # å°†sqlè¿”å›çš„æ‰€æœ‰å†…å®¹å…¨éƒ¨æ”¾å…¥å¯¹è±¡ä¸­
             for key, value in query_data.items():
                 if isinstance(value, decimal.Decimal):
                     data[key] = float(value)
@@ -87,9 +87,9 @@ class MysqlDB:
 
 
 class SetUpMySQL(MysqlDB):
-    """´¦ÀíÇ°ÖÃsql"""
+    """å¤„ç†å‰ç½®sql"""
     def setup_sql_data(self, sql: Union[List, None]):
-        """´¦ÀíÇ°ÖÃsqlÇëÇó"""
+        """å¤„ç†å‰ç½®sqlè¯·æ±‚"""
         sql = ast.literal_eval(cache_regular(str(sql)))
         try:
             data = {}
@@ -103,17 +103,17 @@ class SetUpMySQL(MysqlDB):
                         self.execute(sql=i)
             return data
         except IndexError as exc:
-            raise DataAcquisitionFailed('sqlÊı¾İ²éÑ¯Ê§°Ü£¬Çë¼ì²ésetup_sqlÓï¾äÊÇ·ñÕıÈ·') from exc
+            raise DataAcquisitionFailed('sqlæ•°æ®æŸ¥è¯¢å¤±è´¥ï¼Œè¯·æ£€æŸ¥setup_sqlè¯­å¥æ˜¯å¦æ­£ç¡®') from exc
 
 
 class AssertExecution(MysqlDB):
-    """´¦Àí¶ÏÑÔsqlÊı¾İ"""
+    """å¤„ç†æ–­è¨€sqlæ•°æ®"""
 
     def assert_execution(self, sql: list, resp):
         """
-        Ö´ĞĞsql,¸ºÔğ´¦ÀíyamlÎÄ¼şÖĞµÄ¶ÏÑÔĞèÒªÖ´ĞĞ¶àÌõsqlµÄ³¡¾°
+        æ‰§è¡Œsql,è´Ÿè´£å¤„ç†yamlæ–‡ä»¶ä¸­çš„æ–­è¨€éœ€è¦æ‰§è¡Œå¤šæ¡sqlçš„åœºæ™¯
         :param sql: sql
-        :param resp: ÏìÓ¦½Ó¿ÚÊı¾İ
+        :param resp: å“åº”æ¥å£æ•°æ®
         :return:
         """
         try:
@@ -122,18 +122,18 @@ class AssertExecution(MysqlDB):
                 _sql_type = ['UPDATE', 'update', 'DELETE', 'delete', 'INSERT', 'insert']
                 if any(i in sql for i in _sql_type) in False:
                     for i in sql:
-                        # ÅĞ¶ÏsqlÖĞÊÇ·ñÓĞÕıÔò£¬Èç¹ûÓĞÍ¨¹ıjsonpathÌáÈ¡Êı¾İ
+                        # åˆ¤æ–­sqlä¸­æ˜¯å¦æœ‰æ­£åˆ™ï¼Œå¦‚æœæœ‰é€šè¿‡jsonpathæå–æ•°æ®
                         sql = sql_regular(i, resp)
                         if sql is not None:
                             query_data = self.query(sql)[0]
                             data = self.sql_data_handle(query_data, data)
                         else:
-                            raise DataAcquisitionFailed(f'Î´²éÑ¯µ½Êı¾İ{sql}')
+                            raise DataAcquisitionFailed(f'æœªæŸ¥è¯¢åˆ°æ•°æ®{sql}')
                 else:
-                    raise DataAcquisitionFailed('¶ÏÑÔ±ØĞë²éÑ¯sql')
+                    raise DataAcquisitionFailed('æ–­è¨€å¿…é¡»æŸ¥è¯¢sql')
             else:
-                raise ValueTypeError('sqlÀàĞÍ²»ÕıÈ·£¬Ö§³Ölist')
+                raise ValueTypeError('sqlç±»å‹ä¸æ­£ç¡®ï¼Œæ”¯æŒlist')
             return data
         except Exception as error_data:
-            ERROR.logger.error(f'Êı¾İ¿âÁ¬½ÓÊ§°Ü{error_data}')
+            ERROR.logger.error(f'æ•°æ®åº“è¿æ¥å¤±è´¥{error_data}')
             raise error_data

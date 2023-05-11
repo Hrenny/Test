@@ -6,7 +6,7 @@ from utils.cache_control.cache_control import CacheHandler
 
 
 class SetCurrentRequestCache:
-    """½«ÓÃÀıÖĞµÄÇëÇó»òÏìÓ¦ÄÚÈİ´æÈë»º´æ"""
+    """å°†ç”¨ä¾‹ä¸­çš„è¯·æ±‚æˆ–å“åº”å†…å®¹å­˜å…¥ç¼“å­˜"""
     def __init__(self,
                  current_request_set_cache,
                  request_data,
@@ -18,30 +18,30 @@ class SetCurrentRequestCache:
     def set_request_cache(self,
                           jsonpath_value: Text,
                           cache_name: Text):
-        """½«½Ó¿ÚÇëÇó²ÎÊı´æÈë»º´æ"""
+        """å°†æ¥å£è¯·æ±‚å‚æ•°å­˜å…¥ç¼“å­˜"""
         _request_data = jsonpath(self.request_data, jsonpath_value)
         if _request_data is not False:
             CacheHandler.update_cache(cache_name=cache_name, value=_request_data[0])
         else:
             raise ValueNotFoundError(
-                "»º´æÉèÖÃÊ§°Ü£¬³ÌĞòÖĞÎ´¼ì²âµ½ĞèÒª»º´æµÄÊı¾İ¡£"
-                f"ÇëÇó²ÎÊı: {self.request_data}"
-                f"ÌáÈ¡µÄ jsonpath ÄÚÈİ: {jsonpath_value}")
+                "ç¼“å­˜è®¾ç½®å¤±è´¥ï¼Œç¨‹åºä¸­æœªæ£€æµ‹åˆ°éœ€è¦ç¼“å­˜çš„æ•°æ®ã€‚"
+                f"è¯·æ±‚å‚æ•°: {self.request_data}"
+                f"æå–çš„ jsonpath å†…å®¹: {jsonpath_value}")
 
     def set_response_cache(self,
                            jsonpath_value: Text,
                            cache_name):
-        """½«ÏìÓ¦½á¹û´æÈë»º´æ"""
+        """å°†å“åº”ç»“æœå­˜å…¥ç¼“å­˜"""
         _respose_data = jsonpath(json.loads(self.response_data), jsonpath_value)
         if _respose_data is not False:
             CacheHandler.update_cache(cache_name=cache_name, value=_respose_data[0])
         else:
-            raise ValueNotFoundError("»º´æÉèÖÃÊ§°Ü£¬³ÌĞòÖĞÎ´¼ì²âµ½ĞèÒª»º´æµÄÊı¾İ¡£"
-                                     f"ÇëÇó²ÎÊı: {self.response_data}"
-                                     f"ÌáÈ¡µÄ jsonpath ÄÚÈİ: {jsonpath_value}")
+            raise ValueNotFoundError("ç¼“å­˜è®¾ç½®å¤±è´¥ï¼Œç¨‹åºä¸­æœªæ£€æµ‹åˆ°éœ€è¦ç¼“å­˜çš„æ•°æ®ã€‚"
+                                     f"è¯·æ±‚å‚æ•°: {self.response_data}"
+                                     f"æå–çš„ jsonpath å†…å®¹: {jsonpath_value}")
 
     def set_caches_main(self):
-        """ÉèÖÃ»º´æ"""
+        """è®¾ç½®ç¼“å­˜"""
         if self.current_request_set_cache is not None:
             for i in self.current_request_set_cache:
                 _jsonpath = i.jsonpath

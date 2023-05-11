@@ -7,8 +7,8 @@ from utils.other_tools.modles import AllureAttachmentType
 
 def allure_step(step: str, var: str):
     """
-    :param step: ²½Öè¼°¸½¼şÃû³Æ
-    :param var: ¸½¼şÄÚÈİ
+    :param step: æ­¥éª¤åŠé™„ä»¶åç§°
+    :param var: é™„ä»¶å†…å®¹
     :return:
     """
     with allure.step(step):
@@ -22,10 +22,10 @@ def allure_step(step: str, var: str):
 
 def allure_attach(source: str, name: str, extension: str):
     """
-    allure±¨¸æÉÏ´«¸½¼ş¡¢Í¼Æ¬¡¢excel
-    :param source: ÎÄ¼şÂ·¾¶
-    :param name: ¸½¼şÃû³Æ
-    :param extension: ¸½¼şÀ©Õ¹Ãû³Æ
+    allureæŠ¥å‘Šä¸Šä¼ é™„ä»¶ã€å›¾ç‰‡ã€excel
+    :param source: æ–‡ä»¶è·¯å¾„
+    :param name: é™„ä»¶åç§°
+    :param extension: é™„ä»¶æ‰©å±•åç§°
     :return:
     """
     _name = name.split('.')[-1].upper()
@@ -40,8 +40,8 @@ def allure_attach(source: str, name: str, extension: str):
 
 def allure_step_no(step: str):
     """
-    ÎŞ¸½¼şµÄ²Ù×÷²½Öè
-    :param step: ²Ù×÷Ãû³Æ
+    æ— é™„ä»¶çš„æ“ä½œæ­¥éª¤
+    :param step: æ“ä½œåç§°
     :return:
     """
     with allure.step(step):
