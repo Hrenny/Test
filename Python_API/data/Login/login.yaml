@@ -12,8 +12,8 @@ login_01:
   requestType: json
   is_run:
   data:
-    accountName: "daji123"
-    password: "daji123@"
+    accountName: ""
+    password: ""
   dependence_case: False
   dependence_case_data:
   assert:
