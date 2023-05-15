@@ -1,0 +1,1 @@
+[{"uid":"9bd70d0c84c15d29","name":"test_login[正常登录]","time":{"start":1684131210126,"stop":1684131210213,"duration":87},"status":"passed","severity":"normal"},{"uid":"78ab8cf4fb0963cc","name":"test_login[密码错误]","time":{"start":1684131210217,"stop":1684131210297,"duration":80},"status":"passed","severity":"normal"}]

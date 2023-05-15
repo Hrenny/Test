@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/utils/logging_tool/run_time_decorator.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/mysql_tool/mysql_control.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/other_tools/allure_data/allure_tools.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/other_tools/jsonpath_date_replace.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/requests_tool/dependent_case.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/requests_tool/request_control.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/utils/requests_tool/set_current_request_cache.py" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

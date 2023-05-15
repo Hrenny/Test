@@ -1,0 +1,57 @@
+# 公共参数
+case_common:
+  allureEpic: 接口测试
+  allureFeature: 登录模块
+  allureStory: 登录
+
+login_01:
+  host: ${{host()}}
+  url:
+  method: POST
+  detail: 正常登录
+  headers:
+  requestType: json
+  is_run:
+  data:
+    accountName:
+    password:
+  dependence_case: False
+  dependence_case_data:
+  assert:
+    code:
+      jsonpath: $.code
+      type: ==
+      value: 0
+      AssertType:
+    message:
+      jsonpath: $.message
+      type: ==
+      value: "success"
+      AssertType:
+  sql:
+
+login_02:
+  host: ${{host()}}
+  url:
+  method: POST
+  detail: 密码错误
+  headers:
+  requestType: json
+  is_run:
+  data:
+    accountName:
+    password:
+  dependence_case: False
+  dependence_case_data:
+  assert:
+    code:
+      jsonpath: $.code
+      type: ==
+      value: 3005
+      AssertType:
+    message:
+      jsonpath: $.message
+      type: ==
+      value: "用户名或者密码错误"
+      AssertType:
+  sql:

@@ -1,0 +1,1 @@
+ERROR   2023-05-11 18:10:49,998D:\Code\git_code\Python_API\logs\error-2023-05-11.log:regular_control.py:105 yaml中的${{}}函数方法不正确,正确语法实例：${{get_time()}}
