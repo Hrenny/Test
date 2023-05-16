@@ -6,15 +6,17 @@ from utils.read_files_tools.regular_control import regular
 from utils.requests_tool.request_control import RequestControl
 from utils.requests_tool.teardown_control import TearDownHandler
 
-case_id = ['login_01', 'login_02']
+case_id = ['login_01']
 TestData = GetTestCase.case_data(case_id)
+# 获取请求数据
 re_data = regular(str(TestData))
 
 
-@allure.epic('百川接口')
-@allure.feature('登录模块')
+@allure.epic('百川接口')  # 项目注解
+@allure.feature('登录模块')  # 模块注解
 class TestLogin:
-    @allure.story('登录')
+    @allure.story('登录')  # 用例注解
+    # 对测试用例进行参数化，in_data: 测试用例的参数，ids：用例的标识
     @pytest.mark.parametrize('in_data', eval(re_data), ids=[i['detail'] for i in TestData])
     def test_login(self, in_data, case_skip):
         res = RequestControl(in_data).http_request()

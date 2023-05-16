@@ -121,7 +121,10 @@ class GetTestCase:
     @staticmethod
     def case_data(case_id_lists):
         case_lists = []
+        # 遍历列表
         for i in case_id_lists:
+            # 根据用例id找到该用例的数据
             _data = CacheHandler.get_cache(i)
+            # 将获取到的数据添加到列表
             case_lists.append(_data)
         return case_lists

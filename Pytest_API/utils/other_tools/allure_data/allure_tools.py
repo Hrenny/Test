@@ -7,11 +7,20 @@ from utils.other_tools.modles import AllureAttachmentType
 
 def allure_step(step: str, var: str):
     """
+    在allure报告中添加步骤和附件
     :param step: 步骤及附件名称
     :param var: 附件内容
     :return:
     """
+    # 用例步骤
     with allure.step(step):
+        """
+        添加附件
+        json.dumps()将数据转换为json字符串
+        ensure_ascii=False表示允许在JSON字符串中使用非ASCII字符；
+        indent=4表示使用4个空格进行缩进
+        allure.attachment_type.JSON表示将附件添加为JSON格式的附件
+        """
         allure.attach(
             json.dumps(
                 str(var),
