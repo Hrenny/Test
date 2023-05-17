@@ -150,26 +150,44 @@ class TearDownHandler:
             return _new_data
 
     def send_request_handler(self, data: 'TearDown', resp_data: Dict, request_data: Dict):
-        """后置请求数据"""
+        """
+        后置请求数据
+        :param data: 清理操作对应的数据
+        :param resp_data: 清理操作执行后的响应结果
+        :param request_data: 发送请求的参数
+        :return:
+        """
+        # 获取发送请求数据
         _send_request = data.send_request
+        # 获取用例的id
         _case_id = data.case_id
+        # 从缓存中获取用例数据
         _teardown_case = CacheHandler.get_cache(_case_id)
+        # 遍历请求数据
         for i in _send_request:
+            # 判断依赖类型为cache
             if i.dependent_type == 'cache':
+                # 从缓存中获取依赖数据，并赋值给对应的变量
                 exec(self.dependent_type_cache(teardown_case=i))
+            # 判断依赖类型为response
             if i.dependent_type == 'response':
+                # 从响应中获取依赖的数据，并赋值给对应的变量
                 exec(
                     self.dependent_type_response(
                         teardown_case_data=i,
                         resp_data=resp_data
                     )
                 )
+            # 判断依赖类型为request
             elif i.dependent_type == 'request':
+                # 从发送请求时使用的参数中获取依赖数据，并赋值给对应的变量
                 self.dependent_type_request(
                     teardown_case_data=i,
                     request_data=request_data
                 )
+        # 将缓存的用例数据转换为符合pytest的对象
         test_case = self.regular_testcase(_teardown_case)
+        # 执行HTTP请求清理操作
         self.teardown_http_requests(test_case)
 
     def param_prepare_request_handler(self, data: 'TearDown', resp_data: Dict):
@@ -196,18 +214,24 @@ class TearDownHandler:
         _request_data = self._res.yaml_data.data
         # 判断如果没有teardown
         if _teardown_data is not None:
+            # 遍历用例
             for _data in _teardown_data:
+                # 用例执行后清理参数或状态是否为空
                 if _data.param_prepare is not None:
+                    # 将参数存储到缓存中
                     self.param_prepare_request_handler(
                         data=_data,
                         resp_data=json.loads(_resp_data)
                     )
+                # 测试用例执行后发送请求清理状态是否为空
                 elif _data.send_request is not None:
+                    # 发送HTTP请求，将响应结果存入缓存
                     self.send_request_handler(
                         data=_data,
                         request_data=_request_data,
                         resp_data=json.loads(_resp_data)
                     )
+        # 执行清理数据库中的相关数据
         self.teardown_sql()
 
     def teardown_sql(self):

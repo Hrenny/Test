@@ -19,8 +19,11 @@ class TestLogin:
     # 对测试用例进行参数化，in_data: 测试用例的参数，ids：用例的标识
     @pytest.mark.parametrize('in_data', eval(re_data), ids=[i['detail'] for i in TestData])
     def test_login(self, in_data, case_skip):
+        # 获取响应数据
         res = RequestControl(in_data).http_request()
+        # 处理响应结果
         TearDownHandler(res).teardown_handle()
+        # 对响应结果进行断言
         Assert(assert_data=in_data['assert_data'],
                sql_data=res.sql_data,
                request_data=res.body,

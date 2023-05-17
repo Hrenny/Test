@@ -262,6 +262,7 @@ class RequestControl:
         return sql_data
 
     def _check_params(self, res, yaml_data: 'TestCase') -> 'ResponseData':
+        # 获取用例数据
         data = ast.literal_eval(cache_regular(str(yaml_data.data)))
         _data = {
             'url': res.url,
@@ -281,6 +282,7 @@ class RequestControl:
             'teardown_sql': yaml_data.teardown_sql,
             'body': data
         }
+        # 将用例数据存入缓存
         return ResponseData(**_data)
 
     @classmethod
@@ -295,11 +297,12 @@ class RequestControl:
         allure_step_no(f'响应耗时:{str(_res_time)}')
         allure_step('响应结果：', res)
 
-    @log_decorator(True)
-    @execution_duration(3000)
+    @log_decorator(True)  # 记录请求日志
+    @execution_duration(3000) # 限制请求的最大响应为3秒
     def http_request(self, dependent_switch=True, **kwargs):
         """请求封装"""
         from utils.requests_tool.dependent_case import DependentCase
+        # 根据yaml文件中的请求类型，获取对应的请求方法
         requests_type_mapping = {
             RequestType.JSON.value: self.request_type_for_json,
             RequestType.NONE.value: self.request_type_for_none,
@@ -308,19 +311,26 @@ class RequestControl:
             RequestType.DATA.value: self.request_type_for_data,
             RequestType.EXPORT.value: self.request_type_for_export
         }
+        # 是否执行用例
         is_run = ast.literal_eval(cache_regular(str(self.__yaml_case.is_run)))
         # 判断用例是否执行
         if is_run is True or is_run is None:
+            # 是否开启依赖用例
             if dependent_switch is True:
+                # 获取依赖用例
                 DependentCase(self.__yaml_case).get_dependent_data()
+            # 获取HTTP请求响应的结果
             res = requests_type_mapping.get(self.__yaml_case.requestType)(
                 headers=self.__yaml_case.headers,
                 method=self.__yaml_case.method,
                 **kwargs
             )
+            # 用例是否设置等待时间
             if self.__yaml_case.sleep is not None:
                 time.sleep(self.__yaml_case.sleep)
+            # 获取响应数据
             _res_data = self._check_params(res=res, yaml_data=self.__yaml_case)
+            # 将请求数据和响应数据传入api_allure_step
             self.api_allure_step(
                 url=_res_data.url,
                 headers=str(_res_data.headers),
@@ -336,4 +346,5 @@ class RequestControl:
                 request_data=self.__yaml_case.data,
                 response_data=res
             ).set_caches_main()
+            # 返回响应数据
             return _res_data
