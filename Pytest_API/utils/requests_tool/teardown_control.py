@@ -20,13 +20,21 @@ class TearDownHandler:
 
     @classmethod
     def jsonpath_replace_data(cls, replace_key: Text, replace_value: Dict):
-        """通过jsonpath判断出需要替换数据的位置"""
+        """
+        通过jsonpath判断出需要替换数据的位置
+        :param replace_key: 替换的json路径
+        :param replace_value: 替换的值
+        :return:
+        """
+        # 分割字符串
         _change_data = replace_key.split('.')
+        # 获取替换后的数据
         _new_data = jsonpath_replace(
             change_data=_change_data,
             key_name='_teardown_case',
             data_switch=False
         )
+        # 判断replace_value不是字符串
         if not isinstance(replace_value, str):
             _new_data += f' = {replace_value}'
         else:

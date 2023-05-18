@@ -7,24 +7,37 @@ from utils.logging_tool.log_control import ERROR
 class Context:
     @classmethod
     def host(cls):
+        """返回url"""
         from utils import config
         return config.host
 
 
 def sql_json(js_path, res):
-    """提取sql中的json数据"""
+    """
+    提取sql中的json数据
+    :param js_path: json的路径
+    :param res: json的响应数据
+    :return:
+    """
+    # 查询json的路径
     _json_data = jsonpath(res, js_path)[0]
+    # 判断是否查询失败
     if _json_data is False:
         raise ValueError(f'sql中的jsonpath获取失败{res}, {js_path}')
-    return jsonpath(res, js_path)[0]
+    return _json_data
 
 
 def sql_regular(value, res=None):
     """处理sql中的依赖数据，通过获取接口响应的jsonpath的值进行替换"""
+    # 查找所有与正则匹配的值
     sql_json_list = re.findall(r'\$json\((.*?)\)\$', value)
+    # 遍历列表
     for i in sql_json_list:
+        # 编译正则表达式对象
         pattern = re.compile(r'\$json\(' + i.replace('$', '\$').replace('[', '\[') + r'\)\$')
+        # 获取jsonpath值
         key = str(sql_json(i, res))
+        # value匹配到的字符串，替换成key
         value = re.sub(pattern, key, value, count=1)
     return value
 
@@ -50,7 +63,7 @@ def cache_regular(value):
         try:
             # 获取缓存数据
             cache_data = CacheHandler.get_cache(regular_data)
-            # value中到的字符串,替换成cache_data
+            # value中匹配到的字符串,替换成cache_data
             value = re.sub(pattern, str(cache_data), value)
         except Exception:
             pass

@@ -16,6 +16,7 @@ from utils.requests_tool.request_control import RequestControl
 class DependentCase:
     """处理依赖相关业务"""
     def __init__(self, dependent_yaml_case: TestCase):
+        # 用例数据
         self.__yaml_case = dependent_yaml_case
 
     @classmethod
@@ -32,6 +33,7 @@ class DependentCase:
         :param expr: jsonpath方法
         :return:
         """
+        # 提取jsonpath数据
         _jsonpath_data = jsonpath(obj, expr)
         # 判断是否正常提取到数据，未提取到抛出异常
         if _jsonpath_data is False:
@@ -58,15 +60,19 @@ class DependentCase:
     def url_replace(self, replace_key, jsonpath_dates, jsonpath_data):
         """
         url动态参数替换
-        :param replace_key: json解析出来的数据值
-        :param jsonpath_dates: 用例中需要替换数据的replace_key
-        :param jsonpath_data: jsonpath 存放的数据值
+        :param replace_key: 用例中需要替换数据的replace_key
+        :param jsonpath_dates: jsonpath存放的数据值
+        :param jsonpath_data: jsonpath解析出来的数据值
         :return:
         """
+        # 判断需要替换的键名是否为$url_param
         if "$url_param" in replace_key:
+            # 根据jsonpath_data中的第一个值，替换用例中的url的值
             _url = self.__yaml_case.url.replace(replace_key, str(jsonpath_data[0]))
+            # 将替换后的url存储在jsonpath_dates中
             jsonpath_dates['$.url'] = _url
         else:
+            # 将数据直接存储在jsonpath_dates中
             jsonpath_dates[replace_key] = jsonpath_data[0]
 
     def _dependent_type_for_sql(self, setup_sql, dependence_case_data: 'DependentCaseData', jsonpath_dates):
@@ -77,21 +83,32 @@ class DependentCase:
         :param jsonpath_dates: 依赖相关的用例数据
         :return:
         """
-        # 判断依赖数据的类型，依赖sql中的数据
+        # 判断sql是否为空
         if setup_sql is not None:
+            # 数据库开关是否打开
             if config.mysql_db.switch:
+                # 将sql转换成python合法类型
                 setup_sql = ast.literal_eval(cache_regular(str(setup_sql)))
+                # 执行sql语句
                 sql_data = SetUpMySQL().setup_sql_data(sql=setup_sql)
+                # 获取依赖数据
                 dependent_data = dependence_case_data.dependent_data
+                # 遍历依赖数据
                 for i in dependent_data:
+                    # 将数据解析成jsonpath格式
                     _jsonpath = i.jsonpath
+                    # 提取依赖数据
                     jsonpath_data = self.jsonpath_data(obj=sql_data, expr=_jsonpath)
+                    # 是否需要将提取的值缓存起来
                     _set_value = self.set_cache_value(i)
+                    # 获取需要替换的内容
                     _replace_key = self.replace_key(i)
                     if _set_value is not None:
+                        # 将数据写入缓存
                         CacheHandler.update_cache(cache_name=_set_value, value=jsonpath_data[0])
                     if _replace_key is not None:
                         jsonpath_dates[_replace_key] = jsonpath_data[0]
+                        # 替换url中相应的数据
                         self.url_replace(
                             replace_key=_replace_key,
                             jsonpath_dates=jsonpath_dates,
@@ -101,16 +118,32 @@ class DependentCase:
                 WARNING.logger.warning('检查到数据库开关为关闭状态，请确认配置')
 
     def dependent_handler(self, _jsonpath: Text, set_value: Text, replace_key: Text, jsonpath_dates: Dict, data: Dict, dependent_type: int):
-        """处理数据替换"""
+        """
+        处理数据替换
+        :param _jsonpath: 要处理的json路径
+        :param set_value: 要设置缓存的名称
+        :param replace_key: 要替换的url参数名称
+        :param jsonpath_dates: 要替换的url值
+        :param data: 要处理json的数据
+        :param dependent_type: 依赖类型
+        :return:
+        """
+        # 获取json数据
         jsonpath_data = self.jsonpath_data(data, _jsonpath)
+        # 判断set_value不为空
         if set_value is not None:
+            # json数据长度大于1
             if len(jsonpath_data) > 1:
+                # 将数据写入缓存
                 CacheHandler.update_cache(cache_name=set_value, value=jsonpath_data)
             else:
+                # 将数据写入缓存
                 CacheHandler.update_cache(cache_name=set_value, value=jsonpath_data[0])
+        # 判断replace_key不为空
         if replace_key is not None:
             if dependent_type == 0:
                 jsonpath_dates[replace_key] = jsonpath_data[0]
+            # url参数替换
             self.url_replace(replace_key=replace_key, jsonpath_dates=jsonpath_dates, jsonpath_data=jsonpath_data)
 
     def is_dependent(self):
@@ -187,6 +220,7 @@ class DependentCase:
 
     def get_dependent_data(self):
         """jsonpath和依赖的数据，进行替换"""
+        # 判断用例是否存在依赖数据，并返回结果
         _dependent_data = DependentCase(self.__yaml_case).is_dependent()
         _new_data = None
         # 判断有依赖

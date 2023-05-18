@@ -16,7 +16,7 @@ from utils.other_tools.allure_data.allure_tools import allure_attach, allure_ste
 from utils.other_tools.modles import TestCase, ResponseData, RequestType
 from utils.read_files_tools.regular_control import cache_regular
 from utils.requests_tool.set_current_request_cache import SetCurrentRequestCache
-
+# 禁用 InsecureRequestWarning 警告信息
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -24,6 +24,7 @@ class RequestControl:
     """封装请求"""
 
     def __init__(self, yaml_case):
+        # 用例数据
         self.__yaml_case = TestCase(**yaml_case)
 
     def file_data_exit(self, file_data):
@@ -264,6 +265,7 @@ class RequestControl:
     def _check_params(self, res, yaml_data: 'TestCase') -> 'ResponseData':
         # 获取用例数据
         data = ast.literal_eval(cache_regular(str(yaml_data.data)))
+        # 用例数据
         _data = {
             'url': res.url,
             'is_run': yaml_data.is_run,
