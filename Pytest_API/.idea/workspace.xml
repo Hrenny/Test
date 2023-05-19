@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5dc47c4-5ab5-4514-b716-82f8f73d472f" name="Changes" comment="three">
+    <list default="true" id="c5dc47c4-5ab5-4514-b716-82f8f73d472f" name="Changes" comment="four">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_case/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_case/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/other_tools/jsonpath_date_replace.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/other_tools/jsonpath_date_replace.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/read_files_tools/get_all_files_path.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/read_files_tools/get_all_files_path.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/read_files_tools/get_yaml_data_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/read_files_tools/get_yaml_data_analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/read_files_tools/regular_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/read_files_tools/regular_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/mysql_tool/mysql_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mysql_tool/mysql_control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/requests_tool/dependent_case.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requests_tool/dependent_case.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/requests_tool/request_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requests_tool/request_control.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/requests_tool/set_current_request_cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requests_tool/set_current_request_cache.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/requests_tool/teardown_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requests_tool/teardown_control.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -243,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684310450421</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="four">
+      <created>1684409252738</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1684409252738</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -263,6 +265,7 @@
     <MESSAGE value="seventh" />
     <MESSAGE value="two" />
     <MESSAGE value="three" />
-    <option name="LAST_COMMIT_MESSAGE" value="three" />
+    <MESSAGE value="four" />
+    <option name="LAST_COMMIT_MESSAGE" value="four" />
   </component>
 </project>

@@ -30,8 +30,11 @@ class RequestControl:
     def file_data_exit(self, file_data):
         """上传文件时，data参数是否存在"""
         try:
+            # 获取用例数据
             _data = self.__yaml_case
+            # 获取用例中的data数据进行遍历
             for key, value in ast.literal_eval(cache_regular(str(_data)))['data'].items():
+                # 判断请求头中是否包含multipart/form-data
                 if 'multipart/form-data' in str(self.__yaml_case.headers.values()):
                     file_data[key] = str(value)
                 else:
@@ -41,7 +44,7 @@ class RequestControl:
 
     @classmethod
     def multipart_data(cls, file_data):
-        """处理上传文件的数据"""
+        """处理上传文件的数据，构建一个适合上传文件的 multipart/form-data 请求体 """
         multipart = MultipartEncoder(fields=file_data,
                                      boundary='-----------------------------' + str(random.randint(int(1e28), int(1e29 - 1))))
         return multipart
@@ -49,11 +52,15 @@ class RequestControl:
     @classmethod
     def check_headers_str_null(cls, headers):
         """兼容用户未填写headers"""
+        # 获取请求头数据
         headers = ast.literal_eval(cache_regular(str(headers)))
+        # 判断请求头数据是否为空
         if headers is None:
             headers = {'headers': None}
         else:
+            # 遍历请求头数据
             for key, value in headers.items():
+                # 判断值不是字符串
                 if not isinstance(value, str):
                     headers[key] = str(value)
         return headers
@@ -61,15 +68,21 @@ class RequestControl:
     @classmethod
     def multipart_in_headers(cls, request_data, header):
         """判断处理header为Content-Type:multipart/form-data"""
+        # 获取请求头数据
         header = ast.literal_eval(cache_regular(str(header)))
+        # 获取响应数据
         request_data = ast.literal_eval(cache_regular(str(request_data)))
+        # 判断请求头为空
         if header is None:
             header = {'headers': None}
         else:
-            # 将header中的int转换成str
+            # 遍历请求头数据
             for key, value in header.items():
+                # 判断值不是字符串
                 if not isinstance(value, str):
+                    # 将header中的int转换成str
                     header[key] = str(value)
+            # 判断请求头中是否包含multipart/form-data
             if 'multipart/form-data' in str(header.values()):
                 # 判断参数不为空，并参数是字典类型
                 if request_data and isinstance(request_data, dict):
@@ -77,7 +90,9 @@ class RequestControl:
                     for key, value in request_data.items():
                         if not isinstance(value, str):
                             request_data[key] = str(value)
+                    # 构建请求体
                     request_data = MultipartEncoder(request_data)
+                    # 设置数据请求类型
                     header['Content-Type'] = request_data.content_type
         return request_data, header
 
@@ -104,25 +119,39 @@ class RequestControl:
 
     def upload_file(self):
         """判断处理上传文件"""
+        # 用于存储文件数据的列表
         _files = []
+        # 用于存储文件的字典
         file_data = {}
         self.file_data_exit(file_data)
+        # 获取用例数据
         _data = self.__yaml_case.data
+        # 遍历用例中的文件名
         for key, value in ast.literal_eval(cache_regular(str(_data)))['file'].items():
+            # 拼接文件路径
             file_path = ensure_path_sep('\\Files\\' + value)
+            # 将文件数据添加到字典中
             file_data[key] = (value, open(file_path, 'rb'), 'application/octet-stream')
             _files.append(file_data)
+            # 将文件添加到allure报告中
             allure_attach(source=file_path, name=value, extension=value)
+        # 将文件数据转换成multipart/form-data格式
         multipart = self.multipart_data(file_data)
+        # 将Content-Type设置为multipart/form-data
         self.__yaml_case.headers['Content-Type'] = multipart.content_type
+        # 将参数数据转换成字典
         params_data = ast.literal_eval(cache_regular(str(self.file_prams_exit())))
         return multipart, params_data, self.__yaml_case
 
     def request_type_for_json(self, headers, method, **kwargs):
         """判断请求类型为json格式"""
+        # 转换请求头格式
         _headers = self.check_headers_str_null(headers)
+        # 获取用例中的data
         _data = self.__yaml_case.data
+        # 获取用例中的url
         _url = self.__yaml_case.url
+        # 发送http请求
         res = requests.request(
             method=method,
             url=cache_regular(str(_url)),
@@ -137,8 +166,11 @@ class RequestControl:
 
     def request_type_for_none(self, headers, method, **kwargs):
         """判断requestType为None"""
+        # 转换请求头格式
         _headers = self.check_headers_str_null(headers)
+        # 获取用例中的url
         _url = self.__yaml_case.url
+        # 发送http请求
         res = requests.request(
             method=method,
             url=cache_regular(_url),
@@ -152,17 +184,27 @@ class RequestControl:
 
     def request_type_for_params(self, headers, method, **kwargs):
         """处理requestType为params"""
+        # 获取用例中的data数据
         _data = self.__yaml_case.data
+        # 获取用例中的url
         url = self.__yaml_case.url
+        # 判断data数据不为空
         if _data is not None:
             params_data = '?'
+            # 遍历data数据
             for key, value in _data.items():
+                # 判断值为空
                 if value is None or value == "":
+                    # 对key进行拼接
                     params_data += (key + '&')
                 else:
+                    # 拼接params
                     params_data += (key + '=' + str(value) + '&')
+            # 拼接url
             url = self.__yaml_case.url + params_data[:-1]
+        # 转换请求头
         _headers = self.check_headers_str_null(headers)
+        #进行http请求
         res = requests.request(
             method-method,
             url=cache_regular(url),
@@ -176,10 +218,15 @@ class RequestControl:
 
     def request_type_for_file(self, method, headers, **kwargs):
         """处理requestType为file类型"""
+        # 获取需要上传的文件
         multipart = self.upload_file()
+        # 获取用例数据
         yaml_data = multipart[2]
+        # 获取请求头
         _headers = multipart[2].headers
+        # 转换请求头
         _headers = self.check_headers_str_null(_headers)
+        # 发送http请求
         res = requests.request(
             method=method,
             url=cache_regular(yaml_data.url),
@@ -193,12 +240,16 @@ class RequestControl:
 
     def request_type_for_data(self, headers, method, **kwargs):
         """判断requestType类型为data类型"""
+        # 获取用例中的data数据
         data = self.__yaml_case.data
+        # 获取处理后的data数据和请求头数据
         _data, _headers = self.multipart_in_headers(
             ast.literal_eval(cache_regular(str(data))),
             headers
         )
+        # 获取用例中的url
         _url = self.__yaml_case.url
+        # 发送http请求
         res = requests.request(
             method=method,
             url=cache_regular(_url),
@@ -211,19 +262,24 @@ class RequestControl:
 
     @classmethod
     def get_export_api_filename(cls, res):
-        """处理导出文件"""
+        """获取导出数据的文件名"""
+        # 获取响应头中的 Content-Disposition 属性
         content_disposition = res.headers.get('content-disposition')
-        # 分割字符串，提取文件名
+        # 根据 Content-Disposition 属性，获取文件名的编码
         filename_code = content_disposition.split('=')[-1]
-        # url解码
+        # 对文件名进行 URL 解码，获取原始文件名
         filename = urllib.parse.unquote(filename_code)
         return filename
 
     def request_type_for_export(self, headers, method, **kwargs):
         """判断requestType为export导出类型"""
+        # 转换请求头数据
         _headers = self.check_headers_str_null(headers)
+        # 获取用例中的data数据
         _data = self.__yaml_case.data
+        # 获取用例中的url
         _url = self.__yaml_case.url
+        # 发送http请求
         res = requests.request(
             method=method,
             url=cache_regular(_url),
@@ -234,10 +290,15 @@ class RequestControl:
             data={},
             **kwargs
         )
+        # 拼接完整的文件路径
         filepath = os.path.join(ensure_path_sep("\\File\\"), self.get_export_api_filename(res))
+        # 判断响应状态码为200
         if res.status_code == 200:
+            # 判断数据是否为空
             if res.text:
+                # 以写的模式打开文件
                 with open(filepath, 'wb') as file:
+                    # 获取响应数据进行遍历
                     for chunk in res.iter_content(chunk_size=1):
                         file.write(chunk)
             else:
@@ -257,6 +318,7 @@ class RequestControl:
         """处理sql参数"""
         # 判断数据开关，开启返回相应数据
         if config.mysql_db.switch and sql_data is not None:
+            # 处理sql语句
             sql_data = AssertExecution().assert_execution(sql=sql_data, resp=res.json())
         else:
             sql_data = {'sql': None}

@@ -168,19 +168,28 @@ class DependentCase:
                             dependence_case_data=dependent_case_dates,
                             jsonpath_dates=jsonpath_dates)
                     else:
+                        # 获取缓存中的数据并进行正则表达式匹配
                         re_data = regular(str(self.get_cache(_case_id)))
+                        # 将字符串转换成python合法数据类型
                         re_data = ast.literal_eval(cache_regular(str(re_data)))
+                        # 发起http请求并获取响应
                         res = RequestControl(re_data).http_request
+                        # 如果存在依赖数据，则进行处理
                         if dependent_case_dates.dependent_data is not None:
+                            # 获取依赖用例数据
                             dependent_data = dependent_case_dates.dependent_data
                             for i in dependent_data:
+                                # 获取依赖测试用例的id和jsonpath路径
                                 _case_id = dependent_case_dates.case_id
                                 _jsonpath = i.jsonpath
+                                # 获取当前测试用例的请求数据
                                 _request_data = self.__yaml_case.data
+                                # 获取替换后的key和设置的value
                                 _replace_key = self.replace_key(i)
                                 _set_value = self.set_cache_value(i)
                                 # 判断依赖数据类型，依赖response中的数据
                                 if i.dependent_type == DependentType.RESPONSE.value:
+                                    # 处理response类型的依赖数据
                                     self.dependent_handler(
                                         data=json.loads(res.response_data),
                                         _jsonpath=_jsonpath,
@@ -191,6 +200,7 @@ class DependentCase:
                                     )
                                 # 判断依赖数据类型，依赖request中数据
                                 elif i.dependent_type == DependentType.RESPONSE.value:
+                                    # 处理body类型的依赖数据
                                     self.dependent_handler(
                                         data=res.body,
                                         _jsonpath=_jsonpath,
@@ -225,10 +235,13 @@ class DependentCase:
         _new_data = None
         # 判断有依赖
         if _dependent_data is not None and _dependent_data is not False:
+            # 遍历依赖数据
             for key, value in _dependent_data.items():
-                # 通过jsonpath判断出需要替换数据的位置
+                # 将依赖数据的key根据"."分隔，并将当前测试用例的数据存储到yaml_case中
                 _change_data = key.split('.')
                 yaml_case = self.__yaml_case
+                # jsonpath数据解析
                 _new_data = jsonpath_replace(change_data=_change_data, key_name='yaml_case')
                 _new_data += '=' + str(value)
+                # 最终提取到的数据,转换成 __yaml_case.data
                 exec(_new_data)

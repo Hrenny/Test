@@ -44,24 +44,34 @@ class TearDownHandler:
     @classmethod
     def get_cache_name(cls, replace_key: Text, resp_case_data: Dict):
         """获取缓存名称，提取数据写入缓存"""
+        # 检查'$set_cache{'是否在replace_key中，'}'是否在replace_key中
         if '$set_cache{' in replace_key and '}' in replace_key:
+            # 获取'$set_cache{'的开始索引
             start_index = replace_key.index('$set_cache{')
+            # 获取'$set_cache{'的结束索引
             end_index = replace_key.index('}', start_index)
+            # 从replace_key中提取旧的缓存名称
             old_name = replace_key[start_index:end_index + 2]
+            # 从old_name中提取缓存名称
             cache_name = old_name[11:old_name.index("}")]
+            # 用新的值更新缓存
             CacheHandler.update_cache(cache_name=cache_name, value=resp_case_data)
 
     @classmethod
     def regular_testcase(cls, teardown_case: Dict):
         """处理测试用例中的动态数据"""
+        # 转换成字符串并应用正则表达式
         test_case = regular(str(teardown_case))
+        # 获取缓存数据
         test_case = ast.literal_eval(cache_regular(str(test_case)))
         return test_case
 
     @classmethod
     def teardown_http_requests(cls, teardown_case: Dict) -> 'ResponseData':
         """发送后置请求"""
+        # 获取处理好的测试用例
         test_case = cls.regular_testcase(teardown_case)
+        # 获取响应数据
         res = RequestControl(test_case).http_request(dependent_switch=False)
         return res
 
@@ -72,8 +82,11 @@ class TearDownHandler:
         :param resp_data: 需要替换的内容
         :return:
         """
+        # 获取要替换的key值
         _replace_key = teardown_case_data.replace_key
+        # 获取响应数据中对应的值
         _response_dependent = jsonpath(obj=resp_data, expr=teardown_case_data.jsonpath)
+        # 如果响应数据中存在要替换的key值，则进行替换
         if _response_dependent is not False:
             _resp_case_data = _response_dependent[0]
             data = self.jsonpath_replace_data(
@@ -95,10 +108,14 @@ class TearDownHandler:
         :return:
         """
         try:
+            # 获取请求数据中对应的值，用于缓存
             _request_set_value = teardown_case_data['set_value']
+            # 获取请求数据中对应的值
             _request_dependent = jsonpath(obj=request_data, expr=teardown_case_data['jsonpath'])
+            # 如果请求数据中存在要缓存的值，则进行缓存处理
             if _request_dependent is not False:
                 _request_case_data = _request_dependent[0]
+                # 将要缓存的值存储到缓存中
                 self.get_cache_name(
                     replace_key=_request_set_value,
                     resp_case_data=_request_case_data
@@ -120,10 +137,13 @@ class TearDownHandler:
         :return:
         """
         try:
+            # 获取要缓存的值，并存储到缓存中
             _set_value = teardown_case_data.set_cache
             _response_dependent = jsonpath(obj=res, expr=teardown_case_data.jsonpath)
+            # 如果响应数据中存在要缓存的值，则进行缓存处理
             if _response_dependent is not False:
                 _resp_case_data = _response_dependent[0]
+                # 将要缓存的值存储到缓存中
                 CacheHandler.update_cache(cache_name=_set_value, value=_resp_case_data)
                 self.get_cache_name(
                     replace_key=_set_value,
@@ -139,8 +159,11 @@ class TearDownHandler:
     @classmethod
     def dependent_type_cache(cls, teardown_case: 'SendRequest'):
         """判断依赖类型从缓存中处理"""
+        # 判断该teardown_case是否为cache类型的依赖
         if teardown_case.dependent_type == 'cache':
+            # 获取缓存的名称、要替换的变量名和替换后的数据
             _cache_name = teardown_case.cache_data
+            # 获取要替换的key值
             _replace_key = teardown_case.replace_key
             _change_data = _replace_key.split('.')
             _new_data = jsonpath_replace(
@@ -149,6 +172,7 @@ class TearDownHandler:
                 data_switch=False
             )
             value_type = ['int:', 'bool:', 'list:', 'dict:', 'tuple:', 'float:']
+            # 判断缓存的值类型，如果是value_type列表中的类型，则直接从缓存中获取并替换
             if any(i in _cache_name for i in value_type) is True:
                 _cache_data = CacheHandler.get_cache(_cache_name.split(':')[1])
                 _new_data += f' = {_cache_data}'
@@ -200,12 +224,19 @@ class TearDownHandler:
 
     def param_prepare_request_handler(self, data: 'TearDown', resp_data: Dict):
         """前置请求处理"""
+        # 获取用例的id
         _case_id = data.case_id
+        # 获取前置用例数据
         _teardown_case = CacheHandler.get_cache(_case_id)
+        # 获取参数
         _param_prepare = data.param_prepare
+        # 发送请求并获取响应结果
         res = self.teardown_http_requests(_teardown_case)
+        # 遍历参数数据
         for i in _param_prepare:
+            # 判断参数是否依赖于自身响应数据
             if i.dependent_type == 'self_response':
+                # 调用依赖自身响应数据的方法
                 self.dependent_self_response(
                     teardown_case_data=i,
                     resp_data=resp_data,

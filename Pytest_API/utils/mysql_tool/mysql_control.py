@@ -42,6 +42,7 @@ class MysqlDB:
         def query(self, sql, state='all'):
             """查询sql"""
             try:
+                # 执行sql
                 self.cur.execute(sql)
                 if state == 'all':
                     # 查询全部
@@ -57,6 +58,7 @@ class MysqlDB:
         def execute(self, sql: Text):
             """执行sql"""
             try:
+                # 执行sql
                 rows = self.cur.execute(sql)
                 # 提交事务
                 self.conn.commit()
@@ -75,10 +77,11 @@ class MysqlDB:
             :param data: 数据池
             :return:
             """
-            # 将sql返回的所有内容全部放入对象中
             for key, value in query_data.items():
+                # 判断值是否浮点数
                 if isinstance(value, decimal.Decimal):
                     data[key] = float(value)
+                # 判断值是否是日期和时间
                 elif isinstance(value, datetime.datetime):
                     data[key] = str(value)
                 else:
@@ -90,10 +93,13 @@ class SetUpMySQL(MysqlDB):
     """处理前置sql"""
     def setup_sql_data(self, sql: Union[List, None]):
         """处理前置sql请求"""
+        # 获取sql语句
         sql = ast.literal_eval(cache_regular(str(sql)))
         try:
             data = {}
+            # 判断语句不为空
             if sql is not None:
+                # 遍历语句
                 for i in sql:
                     if i[:6].upper() == 'SELECT':
                         sql_date = self.query(sql=i)[0]
@@ -117,6 +123,7 @@ class AssertExecution(MysqlDB):
         :return:
         """
         try:
+
             if isinstance(sql, list):
                 data = {}
                 _sql_type = ['UPDATE', 'update', 'DELETE', 'delete', 'INSERT', 'insert']
