@@ -22,13 +22,13 @@ mysql_db:
   port:
 #企业微信配置
 wechat:
-  webhook:
+  webhook: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=b795de63-f56a-46cc-a5db-f77efab3385d
 # 邮箱配置
 email:
-  send_user:
-  email_host:
-  stamp_key:
+  send_user: '1030892579@qq.com'
+  email_host: 'smtp.qq.com'
+  stamp_key: 'kezfikasaqyjbbai'
   # 收件邮箱
-  send_list:
+  send_list: '2042832714@qq.com'
 # 镜像源
 mirror_source: http://mirrors.aliyun.com/pypi/simple/

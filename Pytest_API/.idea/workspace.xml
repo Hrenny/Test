@@ -4,12 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5dc47c4-5ab5-4514-b716-82f8f73d472f" name="Changes" comment="four">
+    <list default="true" id="c5dc47c4-5ab5-4514-b716-82f8f73d472f" name="Changes" comment="five">
+      <change afterPath="$PROJECT_DIR$/utils/notify/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/notify/send_mail.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/notify/wechat_send.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/other_tools/allure_data/allure_report_data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/other_tools/allure_data/error_case_excel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/other_tools/get_local_ip.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/times_tool/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/times_tool/time_control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/mysql_tool/mysql_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mysql_tool/mysql_control.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/requests_tool/dependent_case.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requests_tool/dependent_case.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/requests_tool/request_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requests_tool/request_control.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/requests_tool/teardown_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requests_tool/teardown_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/common/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Login/login.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/data/Login/login.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_case/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_case/conftest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +59,28 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.jsonpath_date_replace">
+  <component name="RunManager" selected="Python.wechat_send">
+    <configuration name="allure_report_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Python_API" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils/other_tools/allure_data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/other_tools/allure_data/allure_report_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="jsonpath_date_replace" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Python_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -115,61 +144,55 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for test_login.TestLogin" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="send_mail" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Python_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_case/Login" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils/notify" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_login.TestLogin&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/notify/send_mail.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="pytest for test_login.TestLogin.test_login" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+    <configuration name="wechat_send" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Python_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_case/Login" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils/notify" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_login.TestLogin.test_login&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest in test_login.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="Python_API" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_case/Login" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_parameters" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/test_case/Login/test_login.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/notify/wechat_send.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.jsonpath_date_replace" />
+        <item itemvalue="Python.wechat_send" />
+        <item itemvalue="Python.send_mail" />
+        <item itemvalue="Python.allure_report_data" />
         <item itemvalue="Python.run (1)" />
-        <item itemvalue="Python tests.pytest in test_login.py" />
-        <item itemvalue="Python tests.pytest for test_login.TestLogin.test_login" />
-        <item itemvalue="Python tests.pytest for test_login.TestLogin" />
+        <item itemvalue="Python.jsonpath_date_replace" />
       </list>
     </recent_temporary>
   </component>
@@ -245,7 +268,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684409252738</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="five">
+      <created>1684487444649</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1684487444649</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,6 +296,7 @@
     <MESSAGE value="two" />
     <MESSAGE value="three" />
     <MESSAGE value="four" />
-    <option name="LAST_COMMIT_MESSAGE" value="four" />
+    <MESSAGE value="five" />
+    <option name="LAST_COMMIT_MESSAGE" value="five" />
   </component>
 </project>

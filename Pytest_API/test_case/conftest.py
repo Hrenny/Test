@@ -21,10 +21,10 @@ def clear_report():
 @pytest.fixture(scope='session', autouse=True)
 def work_login_init():
     """获取登录的token"""
-    url = ''
+    url = 'http://test.api.yiyouliao.com/rivers/web/account/login'
     data = {
-        "accountName": '',
-        "password": ''
+        "accountName": 'daji123',
+        "password": 'ce95d82ecc12df0b94137c6145b7a807'
     }
     headers = {'Content-Type': 'application/json'}
     """
