@@ -1,7 +1,10 @@
 import ast
 import json
-
+import shutil
+import xlwings
 from common.setting import ensure_path_sep
+from utils.notify.wechat_send import WeChatSend
+from utils.other_tools.allure_data.allure_report_data import AllureFileClean
 from utils.read_files_tools.get_all_files_path import get_all_files
 
 
@@ -95,3 +98,110 @@ class ErrorTestCase:
         """获取sql数据"""
         sql = self.get_parameters(test_case)['sql']
         return sql
+
+    def get_assert(self, test_case):
+        """获取断言数据"""
+        assert_data = self.get_parameters(test_case)['assert_data']
+        return assert_data
+
+    @classmethod
+    def get_response(cls, test_case):
+        """获取响应内容的数据"""
+        if test_case['testStage']['status'] == 'broken':
+            _res_date = test_case['testStage']['statusMessage']
+        else:
+            try:
+                res_data_attachments = test_case['testStage']['steps'][-1]['attachments'][0]['source']
+                path = ensure_path_sep('\\report\\html\\data\\attachments\\' + res_data_attachments)
+                with open(path, 'r', encoding='utf-8') as file:
+                    _res_date = json.load(file)
+            except FileNotFoundError:
+                _res_date = None
+        return _res_date
+
+    @classmethod
+    def get_case_time(cls, test_case):
+        """获取用例运行时长"""
+        case_time = str(test_case['time']['duration']) + 'ms'
+        return case_time
+
+    @classmethod
+    def get_uid(cls, test_case):
+        """获取allure报告中的uid"""
+        uid = test_case['uid']
+        return uid
+
+
+class ErrorCaseExcel:
+    """收集运行失败的用例，形成excel报告"""
+    def __init__(self):
+        _excel_template = ensure_path_sep('\\utils\\other_tools\\allure_data\\自动化异常测试用例.xlsx')
+        self._file_path = ensure_path_sep('\\Files\\' + '自动化异常测试用例.xlsx')
+        shutil.copyfile(src=_excel_template, dst=self._file_path)
+        self.app = xlwings.App(visible=False, add_book=False)
+        self.w_book = self.app.books.open(self._file_path, read_only=False)
+        self.sheet = self.w_book.sheets['异常用例']
+        self.case_data = ErrorTestCase()
+
+    def background_color(self, position, rgb):
+        """excel单元格设置背景颜色"""
+        rng = self.sheet.range(position)
+        excel_rgb = rng.color = rgb
+        return excel_rgb
+
+    def column_width(self, position, width):
+        """设置列宽"""
+        rng = self.sheet.range(position)
+        excel_column_width = rng.column_width = width
+        return excel_column_width
+
+    def row_height(self, position, height):
+        """设置行高"""
+        rng = self.sheet.range(position)
+        excel_column_height = rng.row_height = height
+        return excel_column_height
+
+    def column_width_adaptation(self, position):
+        """excel 所有列宽度自适应"""
+        rng = self.sheet.range(position)
+        auto_fit = rng.columns.autofit()
+        return auto_fit
+
+    def row_width_adaptation(self, position):
+        """excel 设置所有行宽自适用"""
+        rng = self.sheet.range(position)
+        row_adaptation = rng.rows.autofit()
+        return row_adaptation
+
+    def write_excel_content(self, position, value):
+        """excel 中写入内容"""
+        self.sheet.range(position).value = value
+
+    def write_case(self):
+        """用例中写入失败用例"""
+        _data = self.case_data.get_error_case_data()
+        # 判断有数据才进行写入
+        if len(_data) > 0:
+            num = 2
+            for data in _data:
+                self.write_excel_content(position='A' + str(num), value=str(self.case_data.get_uid(data)))
+                self.write_excel_content(position='B' + str(num), value=str(self.case_data.get_case_time(data)))
+                self.write_excel_content(position='C' + str(num), value=str(self.case_data.get_case_url(data)))
+                self.write_excel_content(position='D' + str(num), value=str(self.case_data.get_method(data)))
+                self.write_excel_content(position='E' + str(num), value=str(self.case_data.get_request_type(data)))
+                self.write_excel_content(position='F' + str(num), value=str(self.case_data.get_headers(data)))
+                self.write_excel_content(position='G' + str(num), value=str(self.case_data.get_case_data(data)))
+                self.write_excel_content(position='H' + str(num), value=str(self.case_data.get_dependence_case(data)))
+                self.write_excel_content(position='I' + str(num), value=str(self.case_data.get_assert(data)))
+                self.write_excel_content(position='J' + str(num), value=str(self.case_data.get_sql(data)))
+                self.write_excel_content(position='K' + str(num), value=str(self.case_data.get_case_time(data)))
+                self.write_excel_content(position='L' + str(num), value=str(self.case_data.get_response(data)))
+                num += 1
+            self.w_book.save()
+            self.w_book.close()
+            self.app.quit()
+            WeChatSend(AllureFileClean().get_case_count()).send_file_msg(self._file_path)
+
+
+if __name__ == '__main__':
+    ErrorCaseExcel().write_case()

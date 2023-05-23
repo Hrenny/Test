@@ -1,12 +1,12 @@
 import os
 import traceback
-
 import pytest
 from utils import config
 from utils.logging_tool.log_control import INFO
 from utils.notify.send_mail import SendEmail
 from utils.notify.wechat_send import WeChatSend
 from utils.other_tools.allure_data.allure_report_data import AllureFileClean
+from utils.other_tools.allure_data.error_case_excel import ErrorCaseExcel
 from utils.other_tools.modles import NotificationType
 
 
@@ -39,6 +39,8 @@ def run():
             notify_type = config.notification_type.split(',')
             for i in notify_type:
                 notification_mapping.get(i.lstrip(''))()
+        if config.excel_report:
+            ErrorCaseExcel().write_case()
         # 程序运行之后，自动启动报告
         os.system(f'allure serve ./report/tmp -h 127.0.0.1 -p  9999')
     except Exception:

@@ -4,20 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5dc47c4-5ab5-4514-b716-82f8f73d472f" name="Changes" comment="five">
-      <change afterPath="$PROJECT_DIR$/utils/notify/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/notify/send_mail.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/notify/wechat_send.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/other_tools/allure_data/allure_report_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/other_tools/allure_data/error_case_excel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/other_tools/get_local_ip.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/times_tool/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/times_tool/time_control.py" afterDir="false" />
+    <list default="true" id="c5dc47c4-5ab5-4514-b716-82f8f73d472f" name="Changes" comment="six">
+      <change afterPath="$PROJECT_DIR$/Files/自动化异常测试用例.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/other_tools/allure_data/自动化异常测试用例.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/common/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Login/login.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/data/Login/login.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_case/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_case/conftest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/notify/send_mail.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/notify/send_mail.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/other_tools/allure_data/error_case_excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/other_tools/allure_data/error_case_excel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,16 +43,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Code/git_code/Pytest_API&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "D:/Code/git_code/Pytest_API/Files",
+    "settings.editor.selected.configurable": "File.Encoding"
   }
-}</component>
-  <component name="RunManager" selected="Python.wechat_send">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Code\git_code\Pytest_API\Files" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.run (1)">
     <configuration name="allure_report_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Python_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -81,7 +79,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="jsonpath_date_replace" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="error_case_excel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Python_API" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -89,11 +87,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils/other_tools" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils/other_tools/allure_data" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/other_tools/jsonpath_date_replace.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/other_tools/allure_data/error_case_excel.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -188,11 +186,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.run (1)" />
+        <item itemvalue="Python.error_case_excel" />
         <item itemvalue="Python.wechat_send" />
         <item itemvalue="Python.send_mail" />
         <item itemvalue="Python.allure_report_data" />
-        <item itemvalue="Python.run (1)" />
-        <item itemvalue="Python.jsonpath_date_replace" />
       </list>
     </recent_temporary>
   </component>
@@ -275,7 +273,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684487444649</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="six">
+      <created>1684753265520</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1684753265520</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -297,6 +302,7 @@
     <MESSAGE value="three" />
     <MESSAGE value="four" />
     <MESSAGE value="five" />
-    <option name="LAST_COMMIT_MESSAGE" value="five" />
+    <MESSAGE value="six" />
+    <option name="LAST_COMMIT_MESSAGE" value="six" />
   </component>
 </project>
