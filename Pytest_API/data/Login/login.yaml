@@ -6,15 +6,15 @@ case_common:
 
 login_01:
   host: ${{host()}}
-  url: /rivers/web/account/login
+  url:
   method: POST
   detail: 正常登录
   headers:
   requestType: json
   is_run:
   data:
-    accountName: daji123
-    password: ce95d82ecc12df0b94137c6145b7a807
+    accountName:
+    password:
   dependence_case: False
   dependence_case_data:
   assert:
