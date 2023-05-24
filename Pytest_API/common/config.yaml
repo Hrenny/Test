@@ -8,7 +8,7 @@ tester_name: 何佳祺
 host:
 # 实时更新用例内容 False：已生成的用例不会做变更  True：修改yaml文件的用例，代码中的内容会实时更新
 real_time_update_test_cases: False
-# 报告通知类型 0：不发通知
+# 报告通知类型 0：不发通知 1：企业微信 2：邮箱通知
 notification_type: 0
 # 收集失败用例，形成excel报告 False：不发送  True：自动发送
 excel_report: False

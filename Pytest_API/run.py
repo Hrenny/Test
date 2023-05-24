@@ -30,21 +30,27 @@ def run():
         --clean: 在生成测试报告前清空目录
         """
         os.system(r'allure generate ./report/tmp -o ./report/html --clean')
+        # 获取用例数量
         allure_data = AllureFileClean().get_case_count()
+        # 通知类型映射
         notification_mapping = {
-            NotificationType.EMAIL.value: SendEmail(allure_data).send_main(),
-            NotificationType.WECHAT.value: WeChatSend(allure_data).send_wechat_notification()
+            NotificationType.EMAIL.value: SendEmail(allure_data).send_main,
+            NotificationType.WECHAT.value: WeChatSend(allure_data).send_wechat_notification
         }
+        # 判断是否需要通知
         if config.notification_type != NotificationType.DEFAULT.value:
             notify_type = config.notification_type.split(',')
             for i in notify_type:
                 notification_mapping.get(i.lstrip(''))()
+        # 判断是否需要生成错误用例报告
         if config.excel_report:
             ErrorCaseExcel().write_case()
         # 程序运行之后，自动启动报告
-        os.system(f'allure serve ./report/tmp -h 127.0.0.1 -p  9999')
+        # os.system(f'allure serve ./report/tmp -h 127.0.0.1 -p  9999')
     except Exception:
+        # 获取异常信息并转换为字符串
         e = traceback.format_exc()
+        # 发送异常邮件
         send_email = SendEmail(AllureFileClean.get_case_count())
         send_email.error_mail(e)
         raise

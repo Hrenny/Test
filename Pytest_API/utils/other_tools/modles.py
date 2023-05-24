@@ -256,8 +256,8 @@ class ResponseData(BaseModel):
     yaml_data: 'TestCase'
     # 请求头
     headers: Dict
-    # cookie数据
-    token: Union[Dict, bool]
+    # token数据
+    token: Text
     # 断言数据
     assert_data: Dict
     # 响应时间

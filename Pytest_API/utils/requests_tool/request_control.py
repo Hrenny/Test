@@ -206,7 +206,7 @@ class RequestControl:
         _headers = self.check_headers_str_null(headers)
         #进行http请求
         res = requests.request(
-            method-method,
+            method=method,
             url=cache_regular(url),
             headers=_headers,
             verify=False,
@@ -338,7 +338,7 @@ class RequestControl:
             'sql_data': self._sql_data_handler(sql_data=ast.literal_eval(cache_regular(str(yaml_data.sql))), res=res),
             'yaml_data': yaml_data,
             'headers': res.request.headers,
-            'token': jsonpath.jsonpath(res.json(), '$.data'),
+            'token': cache_regular('$cache{login_token}'),
             'assert_data': yaml_data.assert_data,
             'res_time': self.repsonse_elapsed_total_seconds(res),
             'status_code': res.status_code,

@@ -1,0 +1,32 @@
+case_common:
+  allureEpic: 百川接口
+  allureFeature: 内容包模块
+  allureStory: 运行内容包
+
+run_package_01:
+  host: ${{host()}}
+  url:
+  method: GET
+  detail: 内容包运行
+  headers:
+    Content-Type: application/json
+    token: $cache{login_token}
+  requestType: params
+  is_run:
+  data:
+    id:
+    statusType: VALID
+  dependence_case: False
+  dependence_case_data:
+  assert:
+    code:
+      jsonpath: $.code
+      type: ==
+      value: 0
+      AssertType:
+    success:
+      jsonpath: $.success
+      type: ==
+      value: true
+      AssertType:
+  sql:

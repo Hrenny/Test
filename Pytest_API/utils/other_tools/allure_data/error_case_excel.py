@@ -201,7 +201,3 @@ class ErrorCaseExcel:
             self.w_book.close()
             self.app.quit()
             WeChatSend(AllureFileClean().get_case_count()).send_file_msg(self._file_path)
-
-
-if __name__ == '__main__':
-    ErrorCaseExcel().write_case()
