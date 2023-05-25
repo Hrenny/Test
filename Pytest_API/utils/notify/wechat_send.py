@@ -10,7 +10,9 @@ from utils.times_tool.time_control import now_time
 
 class WeChatSend:
     def __init__(self, metrics: TestMetrics):
+        # 执行完成后的用例数据
         self.metrics = metrics
+        # 请求头信息
         self.headers = {'Content-Type': 'application/json'}
 
     def send_text(self, content, mentioned_mobile_list=None):

@@ -23,7 +23,7 @@ class AllureFileClean:
         error_case = []
         for i in self.get_testcases():
             if i['status'] == 'failed' or i['status'] == 'broken':
-                error_case.append((i['name'], i['fillName']))
+                error_case.append((i['name'], i['fullName']))
         return error_case
 
     def get_failed_cases_detail(self):
