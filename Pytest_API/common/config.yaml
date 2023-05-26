@@ -25,10 +25,10 @@ wechat:
   webhook:
 # 邮箱配置
 email:
-  send_user: '1030892579@qq.com'
+  send_user: ''
   email_host: 'smtp.qq.com'
-  stamp_key: 'hqcnoojzmzkkbbai'
+  stamp_key: ''
   # 收件邮箱
-  send_list: '2042832714@qq.com'
+  send_list: ''
 # 镜像源
 mirror_source: http://mirrors.aliyun.com/pypi/simple/
